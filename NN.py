@@ -16,9 +16,9 @@ def activation_function(X):
     Y = []
     for k in X:
         if k > 0:
-            Y.append(lambda_val)
+            Y.append(lambda_val * k)
         else:
-            Y.append(alpha * lambda_val * np.exp(k))
+            Y.append(alpha * lambda_val * (np.exp(k) - 1))
     Y = np.array(Y)
     return Y
 
@@ -26,7 +26,7 @@ class NNLayer():
     def __init__(self, inp_dim, out_dim):
         self.inp_dim = inp_dim
         self.out_dim = out_dim
-        self.weights =  1200 * rng.random((inp_dim,out_dim))
+        self.weights = 0.00098* rng.random((inp_dim,out_dim))
         self.bias = rng.random(out_dim)
         self.Gradient = 0
         self.derivative = 0
@@ -49,7 +49,7 @@ class NNLayer():
             prb.append(1/(1 + np.exp(-1 * o)))
         return prb
     
-    def backpropagate(self, loss_matrix, layer_output):
+    def backpropagate(self, loss_matrix, outputs):
         derivatives = []
         for k in self.layer_sum:
             if k > 0:
